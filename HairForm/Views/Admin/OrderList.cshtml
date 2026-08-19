@@ -1,0 +1,89 @@
+﻿@model IEnumerable<HairForm.Models.Order>
+@{
+    ViewData["Title"] = "Заявки";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Список заявок</h2>
+        <form asp-action="ClearCompleted" method="post" onsubmit="return confirm('Удалить все завершённые заявки?');">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger">Очистить завершённые</button>
+        </form>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Тип связи</th>
+                <th>ID</th>
+                <th>Кол-во причёсок</th>
+                <th>Аксессуары</th>
+                <th>Итого</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Статус оплаты</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Name</td>
+                    <td>@order.Type</td>
+                    <td>@order.MessageTypeId</td>
+                    <td>@order.HairCount</td>
+                    <td>
+                        @if (order.Accessories != null && order.Accessories.Any())
+                        {
+                            <ul>
+                                @foreach (var acc in order.Accessories)
+                                {
+                                    <li>@acc.Type: @acc.Quantity</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                    <td>@order.Total</td>
+                    <td>@order.DateTime.ToShortDateString()</td>
+                    <td>
+                        <form asp-action="ChangeStatus" method="post" class="d-flex align-items-center gap-2">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <select name="newStatus" class="form-select form-select-sm" onchange="this.form.submit()">
+                                @foreach (var status in Enum.GetValues<OrderStatus>())
+                                {
+                                    <option value="@status" selected="@(status == order.Status)">@status.GetDescription()</option>
+                                }
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="ChangePayStatus" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="isPaid"
+                                       value="true"
+                                @(order.IsPaid ? "checked" : "")
+                                       onchange="this.form.submit()" />
+                                <label class="form-check-label">Оплачено</label>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="ChangeStatus" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <input type="hidden" name="newStatus" value="@OrderStatus.Completed" />
+                            <button type="submit" class="btn btn-sm btn-success">Завершить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

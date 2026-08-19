@@ -1,0 +1,104 @@
+﻿@using HairForm.Classes
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model HairForm.Models.Order
+@{
+    ViewData["Title"] = Localizer["FormTitle"];
+}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">@Localizer["FormTitle"]</h4>
+        </div>
+        <div class="card-body">
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+
+            <form asp-action="Index" method="post" id="orderForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">@Localizer["NameLabel"]</label>
+                    <input asp-for="Name" class="form-control" placeholder="@Localizer["NameLabel"]" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Type" class="form-label">@Localizer["TypeLabel"]</label>
+                    <select asp-for="Type" class="form-select" asp-items="Html.GetEnumSelectList<HairForm.Models.MessageType>()">
+                        <option value="">-- @Localizer["TypeLabel"] --</option>
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="MessageTypeId" class="form-label">@Localizer["MessageTypeIdLabel"]</label>
+                    <input asp-for="MessageTypeId" class="form-control" placeholder="@Localizer["MessageTypeIdLabel"]" />
+                    <span asp-validation-for="MessageTypeId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="HairCount" class="form-label">@Localizer["HairCountLabel"]</label>
+                    <input asp-for="HairCount" id="quantity" class="form-control" value="1" type="number" min="1" max="3" />
+                    <span asp-validation-for="HairCount" class="text-danger"></span>
+                </div>
+
+                <!-- Блок выбора аксессуаров -->
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="needAccessory" />
+                        <label class="form-check-label" for="needAccessory">@Localizer["NeedAccessory"]</label>
+                    </div>
+
+                    <div id="accessorySection" style="display: none;" class="mt-2 border rounded p-3">
+                        <label class="form-label fw-bold">@Localizer["AccessorySectionLabel"]</label>
+                        @foreach (var accessory in Enum.GetValues<AccessoryType>())
+                        {
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <input type="checkbox" class="form-check-input accessory-checkbox"
+                                       id="chk_@accessory" data-target="qty_@accessory" />
+                                <label class="form-check-label" for="chk_@accessory">@Localizer[accessory.ToString()]</label>
+                                <input type="number" class="form-control accessory-qty"
+                                       id="qty_@accessory"
+                                       name="Accessories[@accessory]"
+                                       min="0" max="3" value="0" style="width: 90px;" />
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DateTime" class="form-label">@Localizer["DateTimeLabel"]</label>
+                    <input asp-for="DateTime"
+                           id="datepicker"
+                           class="form-control"
+                           type="text"
+                           autocomplete="off"
+                           data-booked-dates-url="@Url.Action("GetBookedDates", "Home")" />
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                </div>
+
+                <!-- Блок итоговой цены -->
+                <div class="alert alert-info">
+                    <div>@Localizer["PriceLabel"] <strong>18$</strong></div>
+                    <div>@Localizer["CommissionLabel"] <strong>3$</strong></div>
+                    <hr class="my-2" />
+                    <div>@Localizer["TotalLabel"] <strong id="totalPriceDisplay">0$</strong></div>
+                </div>
+
+                <!-- Скрытое поле для Total -->
+                <input type="hidden" asp-for="Total" id="totalSumInput" />
+
+                <button type="submit" class="btn btn-primary w-100">@Localizer["SubmitButton"]</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="_ErrorModal" model="new ErrorContainer() { ErrorText = ViewBag.ErrorMessage }" />
+<input type="hidden" id="errorMessage" value="@ViewBag.ErrorMessage" />
+<script src="~/js/form.js" asp-append-version="true"></script>
