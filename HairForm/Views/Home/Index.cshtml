@@ -8,7 +8,7 @@
 
 <div class="container mt-4" style="max-width: 700px;">
     <div class="card shadow">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header text-white" style="background-color: #FFB6C1;">
             <h4 class="mb-0">@Localizer["FormTitle"]</h4>
         </div>
         <div class="card-body">
@@ -90,17 +90,17 @@
                     </div>
 
                     <!-- Блок итоговой цены -->
-                    <div class="alert alert-info">
-                        <div>@Localizer["PriceLabel"] <strong>18$</strong></div>
-                        <div>@Localizer["CommissionLabel"] <strong>3$</strong></div>
-                        <hr class="my-2" />
-                        <div>@Localizer["TotalLabel"] <strong id="totalPriceDisplay">0$</strong></div>
+                    <div class="alert alert-info" style="background-color: #DB7093; border-color: hotpink">
+                        <div style="color: #FFFF;">@Localizer["PriceLabel"] <label style="color: #FFFF;">18$</label></div>
+                        <div style="color: #FFFF;">@Localizer["CommissionLabel"] <label style="color: #FFFF;">3$</label></div>
+                        <hr class="my-2" style="color: aliceblue" />
+                        <div style="color: #FFFF;">@Localizer["TotalLabel"] <label id="totalPriceDisplay" style="color: #FFFF;">0$</label></div>
                     </div>
 
                     <!-- Скрытое поле для Total -->
                     <input type="hidden" asp-for="Total" id="totalSumInput" />
 
-                    <button type="submit" class="btn btn-primary w-100">@Localizer["SubmitButton"]</button>
+                    <button type="submit" style="background-color: #FFB6C1; border-color: hotpink; color: #FFFF" class="btn w-100">@Localizer["SubmitButton"]</button>
                 </form>
             }
         </div>

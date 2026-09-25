@@ -62,8 +62,11 @@ namespace HairForm.Models
 
     public enum AccessoryType
     {
+        [Description("Маленький")]
         small = 1,
+        [Description("Средний")]
         medium = 2,
+        [Description("Большой")]
         large = 3,
     }
 }

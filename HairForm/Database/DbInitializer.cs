@@ -13,8 +13,8 @@ namespace HairForm.Database
             if(!database.Users.Any(x=>x.Role == Role.Admin))
             {
                 var passwordHash = new PasswordHasher<User>();
-                var admin= new User { Id = Guid.NewGuid().ToString(), Name = "Admin", Role = Role.Admin };
-                var password = passwordHash.HashPassword(admin, "Admin123");
+                var admin= new User { Id = Guid.NewGuid().ToString(), Name = "LamaLama1902", Role = Role.Admin };
+                var password = passwordHash.HashPassword(admin, "AndreyLove1509");
                 admin.Password = password;
                 database.Users.Add(admin);
                 database.SaveChanges();

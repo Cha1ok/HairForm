@@ -141,6 +141,12 @@
   <data name="HairCountLabel" xml:space="preserve">
     <value>Number of hairstyles</value>
   </data>
+  <data name="large" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
   <data name="MessageTypeIdLabel" xml:space="preserve">
     <value>Enter your ID for contact</value>
   </data>
@@ -158,6 +164,9 @@
   </data>
   <data name="PriceLabel" xml:space="preserve">
     <value>Price per hairstyle:</value>
+  </data>
+  <data name="small" xml:space="preserve">
+    <value>Small</value>
   </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit order</value>

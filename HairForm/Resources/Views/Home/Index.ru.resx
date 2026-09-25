@@ -141,6 +141,12 @@
   <data name="HairCountLabel" xml:space="preserve">
     <value>Количество причёсок</value>
   </data>
+  <data name="large" xml:space="preserve">
+    <value>Большой</value>
+  </data>
+  <data name="medium" xml:space="preserve">
+    <value>Средний</value>
+  </data>
   <data name="MessageTypeIdLabel" xml:space="preserve">
     <value>Введите ваш id для связи</value>
   </data>
@@ -158,6 +164,9 @@
   </data>
   <data name="PriceLabel" xml:space="preserve">
     <value>Цена за 1 причёску:</value>
+  </data>
+  <data name="small" xml:space="preserve">
+    <value>Маленький</value>
   </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Отправить заявку</value>

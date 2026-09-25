@@ -54,7 +54,7 @@
                             <ul>
                                 @foreach (var acc in order.Accessories)
                                 {
-                                    <li>@acc.Type: @acc.Quantity</li>
+                                    <li>@acc.Type.GetDescription(): @acc.Quantity</li>
                                 }
                             </ul>
                         }

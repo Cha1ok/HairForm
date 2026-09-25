@@ -52,7 +52,7 @@ namespace HairForm.Controllers
 
             return RedirectToAction(nameof(OrderList));
         }
-        long;l;;l;
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClearCompleted()
