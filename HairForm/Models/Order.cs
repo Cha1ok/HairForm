@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography.X509Certificates;
 
 namespace HairForm.Models
@@ -6,15 +8,21 @@ namespace HairForm.Models
     public class Order
     {
         public string Id { get; set; }
+        [Required(ErrorMessage = "Введите имя")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Выберите тип")]
         public MessageType Type { get; set; }
+        [Required(ErrorMessage = "Введите ваш id")]
         public string MessageTypeId { get; set; }
+        [Required(ErrorMessage = "введите число")]
         public int HairCount { get; set; }
         public ICollection<OrderAccessory> Accessories { get; set; } = new List<OrderAccessory>();
         public double Total { get; set; }
         public DateTime DateTime { get; set; }
         public OrderStatus Status { get; set; }
         public bool IsPaid { get; set; }
+        [NotMapped]
+        public User User { get; set; }
     }
 
     public class OrderAccessory

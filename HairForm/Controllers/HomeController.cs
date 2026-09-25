@@ -1,4 +1,5 @@
 using HairForm.Classes;
+using HairForm.Database;
 using HairForm.Models;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ namespace HairForm.Controllers
     {
         private readonly FormService _formService;
         private readonly IStringLocalizer<HomeController> _localizer;
-        public HomeController(FormService formService, IStringLocalizer<HomeController> localizer)
+        private readonly ApplicationDbContext _context;
+        public HomeController(FormService formService, IStringLocalizer<HomeController> localizer, ApplicationDbContext context)
         {
             _formService = formService;
             _localizer = localizer;
+            _context = context;
         }
 
         [HttpPost]
@@ -32,14 +35,20 @@ namespace HairForm.Controllers
             TempData["Success"] = "Заказ успешно создан!";
             return RedirectToAction("Index");
         }
+        private async Task<User> GetAdminAsync()
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Role == Role.Admin);
+        }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Передаём в ViewBag сообщение, если оно есть
+            var admin = await GetAdminAsync();
+            ViewBag.IsAcceptingOrders = admin?.IsAcceptingOrders ?? true;
+
             ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
-            ViewBag.SuccessMessage = TempData["Success"] as string;
-            return View();
+            ViewBag.SuccessMessage = TempData["SuccessMessage"] as string;
+            return View(new Order());
         }
 
         [HttpGet]

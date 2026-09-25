@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HairForm.Models.Order>
+﻿@inject IViewLocalizer Localizer
+@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<HairForm.Models.Order>
 @{
     ViewData["Title"] = "Заявки";
 }
@@ -8,6 +10,18 @@
         <form asp-action="ClearCompleted" method="post" onsubmit="return confirm('Удалить все завершённые заявки?');">
             @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-danger">Очистить завершённые</button>
+        </form>
+        <form asp-action="CommisionClose" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <div class="form-check form-switch">
+                <input class="form-check-input"
+                       type="checkbox"
+                       name="isAcceptingOrders"
+                       value="true"
+                @(ViewBag.IsAcceptingOrders == true ? "checked" : "")
+                       onchange="this.form.submit()" />
+                <label class="form-check-label"/>Приём заявок
+            </div>
         </form>
     </div>
 

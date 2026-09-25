@@ -1,4 +1,5 @@
-﻿namespace HairForm.Models
+﻿
+namespace HairForm.Models
 {
     public class User
     {
@@ -6,6 +7,8 @@
         public string Name { get; set; }
         public string Password { get; set; }
         public Role Role { get; set; }
+        public bool IsAcceptingOrders { get; set; } = true; // по умолчанию приём открыт
+
     }
 
     public class LoginViewModel

@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AcceptingOrdersClosed" xml:space="preserve">
+    <value>Приём заявок закрыт</value>
+  </data>
+  <data name="AcceptingOrdersOpen" xml:space="preserve">
+    <value> Приём заявок открыт</value>
+  </data>
+  <data name="AcceptingOrdersToggle" xml:space="preserve">
+    <value>Приём заявок</value>
+  </data>
   <data name="AccessorySectionLabel" xml:space="preserve">
     <value>Выберите аксессуары и количество:</value>
   </data>
@@ -141,11 +150,20 @@
   <data name="NeedAccessory" xml:space="preserve">
     <value>Нужен аксессуар?</value>
   </data>
+  <data name="OrdersClosedError" xml:space="preserve">
+    <value>Приём заявок закрыт</value>
+  </data>
+  <data name="OrdersClosedWarning" xml:space="preserve">
+    <value>Приём заявок временно закрыт. Попробуйте позже.</value>
+  </data>
   <data name="PriceLabel" xml:space="preserve">
     <value>Цена за 1 причёску:</value>
   </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Отправить заявку</value>
+  </data>
+  <data name="SuccessMessage" xml:space="preserve">
+    <value>Заказ успешно создан!</value>
   </data>
   <data name="TotalLabel" xml:space="preserve">
     <value>Итого к оплате:</value>

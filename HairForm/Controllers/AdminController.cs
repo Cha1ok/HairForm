@@ -18,10 +18,10 @@ namespace HairForm.Controllers
 
         public async Task<IActionResult> OrderList()
         {
-            var orders = await _context.Orders
-                .Include(o => o.Accessories)
-                .OrderByDescending(o => o.DateTime)
-                .ToListAsync();
+            var admin = await GetAdminAsync();
+            ViewBag.IsAcceptingOrders = admin?.IsAcceptingOrders ?? true;
+
+            var orders = await _context.Orders.Include(o => o.Accessories).ToListAsync();
             return View(orders);
         }
 
@@ -52,7 +52,7 @@ namespace HairForm.Controllers
 
             return RedirectToAction(nameof(OrderList));
         }
-
+        long;l;;l;
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClearCompleted()
@@ -68,6 +68,25 @@ namespace HairForm.Controllers
             }
 
             return RedirectToAction(nameof(OrderList));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CommisionClose(bool isAcceptingOrders)
+        {
+            var admin = await GetAdminAsync();
+            if (admin == null)
+                return NotFound();
+
+            admin.IsAcceptingOrders = isAcceptingOrders;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(OrderList));
+        }
+
+        private async Task<User> GetAdminAsync()
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Role == Role.Admin);
         }
     }
 }

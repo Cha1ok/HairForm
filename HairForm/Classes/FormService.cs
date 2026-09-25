@@ -18,7 +18,12 @@ namespace HairForm.Classes
             if (order == null)
                 return new ErrorContainer("Пустая форма");
             if (order.Accessories.Any(x => x.Quantity > 3))
-                return new ErrorContainer("Нельяз больше 3 аксесуаров");
+                return new ErrorContainer("Нельзя больше 3 аксесуаров");
+            if (order.HairCount == 0)
+                return new ErrorContainer("Нельзя 0 причёсок");
+            if (order.DateTime < DateTime.UtcNow)
+                return new ErrorContainer("Ошибка в дате");
+            
 
             // Очищаем коллекцию на всякий случай
             order.Id = Guid.NewGuid().ToString();
@@ -53,7 +58,7 @@ namespace HairForm.Classes
 
             var blockedDates = new HashSet<string>();
 
-            // 1. Все пятницы и субботы на год вперёд
+            // 1. Все пятницы и субботы на год вперёд (они всегда недоступны)
             var today = DateTime.Today;
             for (int i = 0; i < 365; i++)
             {
@@ -64,34 +69,48 @@ namespace HairForm.Classes
                 }
             }
 
-            // 2. Даты, занятые существующими заказами
+            // 2. Даты, занятые существующими заказами (только рабочие дни: вс, пн, вт, ср, чт)
             foreach (var order in orders)
             {
-                var orderDate = order.DateTime.ToLocalTime().Date; // только дата без времени
+                var orderDate = order.DateTime.ToLocalTime().Date;
 
-                // Сама дата заказа
-                blockedDates.Add(orderDate.ToString("yyyy-MM-dd"));
-
-                // Если 2 и более причёсок – блокируем неделю (7 дней)
+                // Определяем необходимое количество рабочих дней для блокировки
+                int requiredWorkingDays = 1; // для 1 причёски без аксессуаров
                 if (order.HairCount >= 2)
+                    requiredWorkingDays = 7;
+                else if (order.HairCount == 1)
+                    requiredWorkingDays = 3;
+
+                // Получаем список рабочих дней, начиная с даты заказа, пропуская пятницы и субботы
+                var workingDates = GetWorkingDaysBlock(orderDate, requiredWorkingDays);
+                foreach (var date in workingDates)
                 {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        blockedDates.Add(orderDate.AddDays(i).ToString("yyyy-MM-dd"));
-                    }
+                    blockedDates.Add(date.ToString("yyyy-MM-dd"));
                 }
-                // Если 1 причёска и есть аксессуары – блокируем 3 дня
-                else if (order.HairCount == 1 && order.Accessories != null && order.Accessories.Any())
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        blockedDates.Add(orderDate.AddDays(i).ToString("yyyy-MM-dd"));
-                    }
-                }
-                // Для 1 причёски без аксессуаров дополнительных дней не добавляем
             }
 
             return blockedDates.ToList();
+        }
+
+        // Вспомогательный метод: возвращает заданное количество рабочих дней (не пт/сб), начиная с startDate
+        private List<DateTime> GetWorkingDaysBlock(DateTime startDate, int workingDaysCount)
+        {
+            var blocked = new List<DateTime>();
+            var current = startDate.Date;
+            int added = 0;
+
+            while (added < workingDaysCount)
+            {
+                // Пятница и суббота исключаются из подсчёта рабочих дней
+                if (current.DayOfWeek != DayOfWeek.Friday && current.DayOfWeek != DayOfWeek.Saturday)
+                {
+                    blocked.Add(current);
+                    added++;
+                }
+                current = current.AddDays(1);
+            }
+
+            return blocked;
         }
     }
 }

@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AcceptingOrdersClosed" xml:space="preserve">
+    <value>Accepting orders is closed</value>
+  </data>
+  <data name="AcceptingOrdersOpen" xml:space="preserve">
+    <value>Accepting orders is open</value>
+  </data>
+  <data name="AcceptingOrdersToggle" xml:space="preserve">
+    <value>AcceptingOrdersToggle</value>
+  </data>
   <data name="AccessorySectionLabel" xml:space="preserve">
     <value>Select accessories and quantity:</value>
   </data>
@@ -141,11 +150,20 @@
   <data name="NeedAccessory" xml:space="preserve">
     <value>Need an accessory?</value>
   </data>
+  <data name="OrdersClosedError" xml:space="preserve">
+    <value>Order acceptance is closed</value>
+  </data>
+  <data name="OrdersClosedWarning" xml:space="preserve">
+    <value>Order acceptance is temporarily closed. Please try later.</value>
+  </data>
   <data name="PriceLabel" xml:space="preserve">
     <value>Price per hairstyle:</value>
   </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit order</value>
+  </data>
+  <data name="SuccessMessage" xml:space="preserve">
+    <value>Order successfully created!</value>
   </data>
   <data name="TotalLabel" xml:space="preserve">
     <value>Total to pay:</value>
